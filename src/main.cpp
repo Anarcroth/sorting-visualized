@@ -62,8 +62,10 @@ int main(int argc, char* args[])
     std::uniform_int_distribution<int> even_rand(0, SCREEN_HEIGHT);
 
     std::vector<SDL_Rect> pillars;
-    for (int i = 0; i < 5; i++) {
-	SDL_Rect rect = {50 * i, 0, 20, even_rand(rng)};
+    for (int i = 0; i < 10; i++) {
+	int pillar_val = even_rand(rng);
+	int rect_y = SCREEN_HEIGHT - pillar_val;
+	SDL_Rect rect = {50 * i, rect_y, 20, pillar_val};
 	pillars.push_back(rect);
     }
 
@@ -76,9 +78,12 @@ int main(int argc, char* args[])
 
 	while (!quit) {
 
-	    while (SDL_PollEvent(&e) != 0)
+	    while (SDL_PollEvent(&e) != 0) {
 		if (e.type == SDL_QUIT)
 		    quit = true;
+		else if (e.type == SDLK_q)
+		    quit = true;
+	    }
 
 	    //Clear screen
 	    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);

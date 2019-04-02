@@ -1,7 +1,9 @@
 #include <SDL2/SDL.h>
-#include <stdio.h>
+#include <iostream>
 #include <string>
 #include <cmath>
+#include <random>
+#include <vector>
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 800;
@@ -56,6 +58,15 @@ void close()
 
 int main(int argc, char* args[])
 {
+    std::mt19937 rng {std::random_device()() };
+    std::uniform_int_distribution<int> even_rand(0, SCREEN_HEIGHT);
+
+    std::vector<SDL_Rect> pillars;
+    for (int i = 0; i < 5; i++) {
+	SDL_Rect rect = {50 * i, 0, 20, even_rand(rng)};
+	pillars.push_back(rect);
+    }
+
     if (!init()) {
 	printf("Failed to initialize!\n");
     } else {
@@ -63,35 +74,20 @@ int main(int argc, char* args[])
 
 	SDL_Event e;
 
-	while(!quit) {
+	while (!quit) {
 
-	    while(SDL_PollEvent(&e) != 0)
-		if(e.type == SDL_QUIT)
+	    while (SDL_PollEvent(&e) != 0)
+		if (e.type == SDL_QUIT)
 		    quit = true;
 
 	    //Clear screen
-	    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
 	    SDL_RenderClear(renderer);
 
 	    //Render red filled quad
-	    SDL_Rect fillRect = { SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
-	    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
-	    SDL_RenderFillRect(renderer, &fillRect);
-
-	    //Render green outlined quad
-	    SDL_Rect outlineRect = { SCREEN_WIDTH / 6, SCREEN_HEIGHT / 6, SCREEN_WIDTH * 2 / 3, SCREEN_HEIGHT * 2 / 3 };
-	    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
-	    SDL_RenderDrawRect(renderer, &outlineRect);
-
-	    //Draw blue horizontal line
-	    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
-	    SDL_RenderDrawLine(renderer, 0, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT / 2);
-
-	    //Draw vertical line of yellow dots
-	    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0x00, 0xFF);
-	    for(int i = 0; i < SCREEN_HEIGHT; i += 4)
-	    {
-		SDL_RenderDrawPoint(renderer, SCREEN_WIDTH / 2, i);
+	    for (auto& pillar : pillars) {
+		    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+		    SDL_RenderFillRect(renderer, &pillar);
 	    }
 
 	    //Update screen

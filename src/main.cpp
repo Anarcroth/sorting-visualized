@@ -5,6 +5,8 @@
 #include <random>
 #include <vector>
 
+#include "sort.hpp"
+
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 800;
 
@@ -60,15 +62,16 @@ int main(int argc, char* args[])
 {
     std::mt19937 rng {std::random_device()() };
     std::uniform_int_distribution<int> even_rand(0, SCREEN_HEIGHT);
-
+    int pillar_width = 15;
+    int num_pillars = SCREEN_WIDTH / pillar_width;
     std::vector<SDL_Rect> pillars;
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < num_pillars; i++) {
 	int pillar_val = even_rand(rng);
 	int rect_y = SCREEN_HEIGHT - pillar_val;
-	SDL_Rect rect = {50 * i, rect_y, 20, pillar_val};
+	SDL_Rect rect = {i * (1 + pillar_width), rect_y, pillar_width, pillar_val};
 	pillars.push_back(rect);
     }
-
+    //sort::merge_sort(pillars, 0, num_pillars);
     if (!init()) {
 	printf("Failed to initialize!\n");
     } else {
@@ -91,7 +94,7 @@ int main(int argc, char* args[])
 
 	    //Render red filled quad
 	    for (auto& pillar : pillars) {
-		    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+		    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		    SDL_RenderFillRect(renderer, &pillar);
 	    }
 

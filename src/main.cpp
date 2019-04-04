@@ -74,8 +74,9 @@ int main(int argc, char* args[])
 
     sort::merge_sort(pillars, 0, num_pillars);
 
-    for (auto& p:pillars) {
-	printf("%d ", p.h);
+    for (int i = 0; i < num_pillars; i++) {
+	printf("%d ", pillars[i]);
+	pillars[i].x = i * (1 + pillar_width);
     }
 
     if (!init()) {

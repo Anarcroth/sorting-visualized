@@ -27,11 +27,11 @@ bool init()
 	    printf( "Warning: Linear texture filtering not enabled!");
 
 	window = SDL_CreateWindow("Sorting Algorithms Visualization",
-				   SDL_WINDOWPOS_UNDEFINED,
-				   SDL_WINDOWPOS_UNDEFINED,
-				   SCREEN_WIDTH,
-				   SCREEN_HEIGHT,
-				   SDL_WINDOW_SHOWN);
+				  SDL_WINDOWPOS_UNDEFINED,
+				  SDL_WINDOWPOS_UNDEFINED,
+				  SCREEN_WIDTH,
+				  SCREEN_HEIGHT,
+				  SDL_WINDOW_SHOWN);
 	if (window == nullptr) {
 	    printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
 	    return false;
@@ -71,7 +71,13 @@ int main(int argc, char* args[])
 	SDL_Rect rect = {i * (1 + pillar_width), rect_y, pillar_width, pillar_val};
 	pillars.push_back(rect);
     }
-    //sort::merge_sort(pillars, 0, num_pillars);
+
+    sort::merge_sort(pillars, 0, num_pillars);
+
+    for (auto& p:pillars) {
+	printf("%d ", p.h);
+    }
+
     if (!init()) {
 	printf("Failed to initialize!\n");
     } else {
@@ -84,18 +90,21 @@ int main(int argc, char* args[])
 	    while (SDL_PollEvent(&e) != 0) {
 		if (e.type == SDL_QUIT)
 		    quit = true;
-		else if (e.type == SDLK_q)
-		    quit = true;
+		else if (e.type == SDL_KEYDOWN) {
+		    switch (e.key.keysym.sym) {
+		    case SDLK_q: quit = true;
+			break;
+		    }
+		}
 	    }
-
 	    //Clear screen
 	    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
 	    SDL_RenderClear(renderer);
 
 	    //Render red filled quad
 	    for (auto& pillar : pillars) {
-		    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-		    SDL_RenderFillRect(renderer, &pillar);
+		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+		SDL_RenderFillRect(renderer, &pillar);
 	    }
 
 	    //Update screen

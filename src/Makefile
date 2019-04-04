@@ -12,12 +12,15 @@ CPPFLAGS = -g -std=c++11 -Wall -lSDL2
 default: srtv
 
 # To create the executable file:
-srtv: main.o
-	$(CC) $(CPPFLAGS) -o srtv.app main.o
+srtv: main.o sort.o
+	$(CC) $(CPPFLAGS) -o srtv.app main.o sort.o
 
 # Provide source files:
 main.o: main.cpp
 	$(CC) -c main.cpp
+
+sort.o: sort.cpp
+	$(CC) -c sort.cpp
 
 # Remove executable files, as well as old .o object
 # files and *~ backup files:

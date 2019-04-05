@@ -4,6 +4,8 @@
 #include <cmath>
 #include <random>
 #include <vector>
+#include <thread>
+#include <chrono>
 
 #include "sort.hpp"
 
@@ -72,13 +74,6 @@ int main(int argc, char* args[])
 	pillars.push_back(rect);
     }
 
-    sort::merge_sort(pillars, 0, num_pillars);
-
-    for (int i = 0; i < num_pillars; i++) {
-	printf("%d ", pillars[i]);
-	pillars[i].x = i * (1 + pillar_width);
-    }
-
     if (!init()) {
 	printf("Failed to initialize!\n");
     } else {
@@ -88,7 +83,7 @@ int main(int argc, char* args[])
 
 	while (!quit) {
 
-	    while (SDL_PollEvent(&e) != 0) {
+	    if (SDL_WaitEvent(&e)) {
 		if (e.type == SDL_QUIT)
 		    quit = true;
 		else if (e.type == SDL_KEYDOWN) {
@@ -102,14 +97,11 @@ int main(int argc, char* args[])
 	    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
 	    SDL_RenderClear(renderer);
 
-	    //Render red filled quad
-	    for (auto& pillar : pillars) {
-		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-		SDL_RenderFillRect(renderer, &pillar);
-	    }
-
+	    sort::merge_sort(renderer, pillars, 0, num_pillars);
+	    int a = std::cin.get();
+	    exit(0);
 	    //Update screen
-	    SDL_RenderPresent(renderer);
+	    //SDL_RenderPresent(renderer);
 	}
     }
 

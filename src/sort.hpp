@@ -6,8 +6,9 @@
 
 namespace sort
 {
-    void merge(std::vector<SDL_Rect> &array, int left, int middle, int right);
-    void merge_sort(std::vector<SDL_Rect> &array, int left, int right);
+    void merge(SDL_Renderer* r, std::vector<SDL_Rect> &array, int left, int middle, int right);
+    void merge_sort(SDL_Renderer* r, std::vector<SDL_Rect> &array, int left, int right);
+    void render(SDL_Renderer* r, std::vector<SDL_Rect> &array, int left, int right, int middle);
 }
 
 #endif

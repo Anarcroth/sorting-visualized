@@ -10,8 +10,8 @@ namespace sort
 {
     void merge(SDL_Renderer* r, std::vector<SDL_Rect> &array, int left, int middle, int right)
     {
-	screen::clear(r);
-
+		SDL_SetRenderDrawColor(r, 0x00, 0xFF, 0x00, 0x00);
+		SDL_RenderFillRect(r, &array[right]);
 	int i, j, k;
 	int n1 = middle - left + 1;
 	int n2 = right - middle;
@@ -29,11 +29,6 @@ namespace sort
 	k = left;
 
 	while (i < n1 && j < n2) {
-	    render(r, array, left, right, middle);
-	    SDL_SetRenderDrawColor(r, 0xFF, 0x00, 0x00, 0xFF);
-	    SDL_RenderFillRect(r, &L[i]);
-	    SDL_RenderFillRect(r, &R[j]);
-
 	    if (L[i].h <= R[j].h) {
 		array[k] = L[i];
 		i++;
@@ -41,6 +36,9 @@ namespace sort
 		array[k] = R[j];
 		j++;
 	    }
+	    render(r, array, left, right, middle);
+	    SDL_SetRenderDrawColor(r, 0xFF, 0x00, 0x00, 0xFF);
+	    SDL_RenderFillRect(r, &array[k]);
 	    SDL_RenderPresent(r);
 	    k++;
 	    //int a = std::cin.get();
@@ -57,8 +55,8 @@ namespace sort
 	    j++;
 	    k++;
 	}
-
-	render(r, array, left, right, middle);
+	render(r, array, left, array.size(), middle);
+	SDL_RenderPresent(r);
     }
 
     void merge_sort(SDL_Renderer* r, std::vector<SDL_Rect> &array, int left, int right)
@@ -89,12 +87,5 @@ namespace sort
 
 	SDL_SetRenderDrawColor(r, 0x00, 0xFF, 0x00, 0x00);
 	SDL_RenderFillRect(r, &array[left]);
-
-	SDL_SetRenderDrawColor(r, 0x00, 0xFF, 0x00, 0x00);
-	SDL_RenderFillRect(r, &array[right]);
-
-	SDL_RenderPresent(r);
-	// keeps the frame rate stable
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 }

@@ -97,9 +97,9 @@ int main(int argc, char* args[])
 	    screen::clear(renderer);
 
 	    sort::merge_sort(renderer, pillars, 0, num_pillars);
-	    exit(0);
-	    //Update screen
-	    //SDL_RenderPresent(renderer);
+	    screen::finish(renderer, pillars);
+
+	    quit = true;
 	}
     }
 

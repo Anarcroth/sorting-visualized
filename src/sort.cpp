@@ -12,7 +12,6 @@ namespace sort
     {
 	screen::clear(r);
 
-	render(r, array, left, right, middle);
 	int i, j, k;
 	int n1 = middle - left + 1;
 	int n2 = right - middle;
@@ -44,22 +43,22 @@ namespace sort
 	    }
 	    SDL_RenderPresent(r);
 	    k++;
-	    int a = std::cin.get();
+	    //int a = std::cin.get();
 	}
 
 	while (i < n1) {
 	    array[k] = L[i];
-	    render(r, array, left, right, middle);
 	    i++;
 	    k++;
 	}
 
 	while (j < n2) {
 	    array[k] = R[j];
-	    render(r, array, left, right, middle);
 	    j++;
 	    k++;
 	}
+
+	render(r, array, left, right, middle);
     }
 
     void merge_sort(SDL_Renderer* r, std::vector<SDL_Rect> &array, int left, int right)
@@ -76,18 +75,15 @@ namespace sort
 
     void render(SDL_Renderer* r, std::vector<SDL_Rect> &array, int left, int right, int middle)
     {
-	SDL_SetRenderDrawColor(r, 0x00, 0x00, 0x00, 0x00);
-	SDL_RenderClear(r);
-
-
+	screen::clear(r);
 
 	for (size_t i = 0; i < array.size(); i++) {
-	    array[i].x = i * (1 + 15);
+	    array[i].x = i * ( array[i].w);
 	    SDL_SetRenderDrawColor(r, 0xFF, 0xFF, 0xFF, 0xFF);
 	    SDL_RenderFillRect(r, &array[i]);
 	}
 
-		// Show the left, right, middle pivots
+	// Show the left, right, and middle pivots
 	SDL_SetRenderDrawColor(r, 0x00, 0xFF, 0xFF, 0x00);
 	SDL_RenderFillRect(r, &array[middle]);
 
@@ -98,8 +94,7 @@ namespace sort
 	SDL_RenderFillRect(r, &array[right]);
 
 	SDL_RenderPresent(r);
-	// stop the showing
-
-	SDL_RenderPresent(r);
+	// keeps the frame rate stable
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 }

@@ -8,6 +8,7 @@
 #include <chrono>
 
 #include "sort.hpp"
+#include "screen.hpp"
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 800;
@@ -64,13 +65,13 @@ int main(int argc, char* args[])
 {
     std::mt19937 rng {std::random_device()() };
     std::uniform_int_distribution<int> even_rand(0, SCREEN_HEIGHT);
-    int pillar_width = 15;
+    int pillar_width = 1;
     int num_pillars = SCREEN_WIDTH / pillar_width;
     std::vector<SDL_Rect> pillars;
     for (int i = 0; i < num_pillars; i++) {
 	int pillar_val = even_rand(rng);
 	int rect_y = SCREEN_HEIGHT - pillar_val;
-	SDL_Rect rect = {i * (1 + pillar_width), rect_y, pillar_width, pillar_val};
+	SDL_Rect rect = {i * ( pillar_width), rect_y, pillar_width, pillar_val};
 	pillars.push_back(rect);
     }
 
@@ -93,12 +94,9 @@ int main(int argc, char* args[])
 		    }
 		}
 	    }
-	    //Clear screen
-	    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-	    SDL_RenderClear(renderer);
+	    screen::clear(renderer);
 
 	    sort::merge_sort(renderer, pillars, 0, num_pillars);
-	    int a = std::cin.get();
 	    exit(0);
 	    //Update screen
 	    //SDL_RenderPresent(renderer);

@@ -67,11 +67,15 @@ namespace screen
 
     void finish(SDL_Renderer* r, std::vector<SDL_Rect> &array)
     {
-	for (size_t i = 0; i < array.size(); i++) {
-	    SDL_SetRenderDrawColor(r, 0x00, 0xFF, 0x00, 0xFF);
-	    SDL_RenderFillRect(r, &array[i]);
+	for (size_t i = 0; i < array.size() - 1; i++) {
+	    if (array[i].h <= array[i + 1].h) {
+		SDL_SetRenderDrawColor(r, 0x00, 0xFF, 0x00, 0xFF);
+		SDL_RenderFillRect(r, &array[i]);
+		SDL_SetRenderDrawColor(r, 0x00, 0xFF, 0x00, 0xFF);
+		SDL_RenderFillRect(r, &array[i + 1]);
+	    }
 	    SDL_RenderPresent(r);
-	    std::this_thread::sleep_for(std::chrono::milliseconds(05));
+	    std::this_thread::sleep_for(std::chrono::milliseconds(2));
 	}
     }
 

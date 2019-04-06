@@ -36,12 +36,14 @@ namespace sort
 		array[k] = R[j];
 		j++;
 	    }
+
+            // Render the array and the different pivots
 	    render(r, array, left, right, middle);
 	    SDL_SetRenderDrawColor(r, 0xFF, 0x00, 0x00, 0xFF);
 	    SDL_RenderFillRect(r, &array[k]);
 	    SDL_RenderPresent(r);
+
 	    k++;
-	    //int a = std::cin.get();
 	}
 
 	while (i < n1) {
@@ -76,7 +78,7 @@ namespace sort
 	screen::clear(r);
 
 	for (size_t i = 0; i < array.size(); i++) {
-	    array[i].x = i * ( array[i].w);
+	    array[i].x = i * array[i].w;
 	    SDL_SetRenderDrawColor(r, 0xFF, 0xFF, 0xFF, 0xFF);
 	    SDL_RenderFillRect(r, &array[i]);
 	}

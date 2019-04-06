@@ -11,7 +11,7 @@ int main(int argc, char* args[])
     // Parse arguments
     // Add timer
     // Add statistics output
-    std::vector<SDL_Rect> pillars = number_set::reversed();
+    std::vector<SDL_Rect> pillars = number_set::random();
 
     if (!screen::init()) {
 	printf("Failed to initialize!\n");
@@ -19,7 +19,7 @@ int main(int argc, char* args[])
 	while (!screen::quit) {
 	    screen::handle_event();
 	    screen::clear(screen::renderer);
-	    sort::merge_sort(screen::renderer, pillars, 0, pillars.size());
+	    sort::quick_sort(screen::renderer, pillars, 0, pillars.size());
 	    screen::finish(screen::renderer, pillars);
 	    screen::quit = true;
 	}

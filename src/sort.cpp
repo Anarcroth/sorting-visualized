@@ -10,8 +10,6 @@ namespace sort
 {
     void merge(SDL_Renderer* r, std::vector<SDL_Rect> &array, int left, int middle, int right)
     {
-		SDL_SetRenderDrawColor(r, 0x00, 0xFF, 0x00, 0x00);
-		SDL_RenderFillRect(r, &array[right]);
 	int i, j, k;
 	int n1 = middle - left + 1;
 	int n2 = right - middle;
@@ -89,5 +87,66 @@ namespace sort
 
 	SDL_SetRenderDrawColor(r, 0x00, 0xFF, 0x00, 0x00);
 	SDL_RenderFillRect(r, &array[left]);
+    }
+
+    void quick_sort(SDL_Renderer* r, std::vector<SDL_Rect> &array, int low, int high)
+    {
+	if (high > low)
+	{
+	    int pivot = partition(r, array, low, high);
+	    quick_sort(r, array, low, pivot - 1);
+	    quick_sort(r, array, pivot + 1, high);
+	}
+    }
+
+    int partition(SDL_Renderer* r, std::vector<SDL_Rect> &array, int low, int high)
+    {
+	screen::clear(r);
+
+	int pivot = array[high].h;
+	int i = low - 1;
+
+	for (int j = low; j <= high - 1; j++) {
+	    if (array[j].h <= pivot) {
+		i++;
+		std::swap(array[i], array[j]);
+	    }
+
+	    screen::clear(r);
+	    for (size_t i = 0; i < array.size(); i++) {
+		array[i].x = i * array[i].w;
+		SDL_SetRenderDrawColor(r, 0xFF, 0xFF, 0xFF, 0xFF);
+		SDL_RenderFillRect(r, &array[i]);
+	    }
+
+	    SDL_SetRenderDrawColor(r, 0xFF, 0x00, 0x00, 0xFF);
+	    SDL_RenderFillRect(r, &array[j]);
+	    SDL_RenderFillRect(r, &array[i]);
+
+	    SDL_SetRenderDrawColor(r, 0x00, 0xFF, 0x00, 0xFF);
+	    SDL_RenderFillRect(r, &array[low]);
+	    SDL_RenderFillRect(r, &array[high]);
+
+	    SDL_RenderPresent(r);
+	}
+
+	std::swap(array[i + 1], array[high]);
+
+	screen::clear(r);
+	for (size_t i = 0; i < array.size(); i++) {
+	    array[i].x = i * array[i].w;
+	    SDL_SetRenderDrawColor(r, 0xFF, 0xFF, 0xFF, 0xFF);
+	    SDL_RenderFillRect(r, &array[i]);
+	}
+
+	SDL_SetRenderDrawColor(r, 0xFF, 0x00, 0x00, 0xFF);
+	SDL_RenderFillRect(r, &array[i]);
+
+	SDL_SetRenderDrawColor(r, 0x00, 0xFF, 0x00, 0xFF);
+	SDL_RenderFillRect(r, &array[low]);
+	SDL_RenderFillRect(r, &array[high]);
+	SDL_RenderPresent(r);
+
+	return i + 1;
     }
 }

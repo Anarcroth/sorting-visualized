@@ -75,11 +75,11 @@ namespace screen
     void show_array(std::vector<SDL_Rect> &array)
     {
 	for (size_t i = 0; i < array.size() - 1; i++) {
-	    SDL_SetRenderDrawColor(screen::renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	    SDL_RenderFillRect(screen::renderer, &array[i]);
-	    SDL_SetRenderDrawColor(screen::renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	    SDL_RenderFillRect(screen::renderer, &array[i + 1]);
-	    SDL_RenderPresent(screen::renderer);
+	    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	    SDL_RenderFillRect(renderer, &array[i]);
+	    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	    SDL_RenderFillRect(renderer, &array[i + 1]);
+	    SDL_RenderPresent(renderer);
 	}
     }
 }

@@ -5,8 +5,8 @@
 #include "sort.hpp"
 #include "screen.hpp"
 #include "number_set.hpp"
-#include "binary_tree.hpp"
 #include "command_parser.hpp"
+#include "binary_tree.hpp"
 
 // TODO
 // Add timer
@@ -41,11 +41,6 @@ int main(int argc, char* args[])
 
     std::vector<SDL_Rect> pillars = number_set::gen((int)ns);
 
-    binary_tree bt;
-    for (auto& p : pillars) {
-   	bt.insert(p);
-    }
-
     if (!screen::init()) {
 	printf("Failed to initialize!\n");
 	return(0);
@@ -59,6 +54,15 @@ int main(int argc, char* args[])
 	sort::merge_sort(pillars, 0, pillars.size());
 	break;
     case algs::BINARY_TREE_SORT:
+	pillars = sort::binary_tree_sort(pillars);
+	for (size_t i = 0; i < pillars.size() - 1; i++) {
+	    screen::clear();
+	    SDL_SetRenderDrawColor(screen::renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	    SDL_RenderFillRect(screen::renderer, &pillars[i]);
+	    SDL_SetRenderDrawColor(screen::renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	    SDL_RenderFillRect(screen::renderer, &pillars[i + 1]);
+	    SDL_RenderPresent(screen::renderer);
+	}
 	break;
     case algs::QUICK_SORT:
 	sort::quick_sort(pillars, 0, pillars.size());
@@ -72,14 +76,6 @@ int main(int argc, char* args[])
     }
 
     screen::finish(pillars);
-
-    ///
-    //screen::clear();
-    //SDL_SetRenderDrawColor(screen::renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-    //bt.in_order_traversal();
-    //std::cin.get();
-    ///
-
     screen::close();
 
     return 0;
@@ -116,6 +112,8 @@ algs get_alg_option(command_parser cp)
 	return algs::HEAP_SORT;
     else if (cp.cmd_option_exists("--shell-sort"))
 	return algs::SHELL_SORT;
+    else
+	print_help();
 }
 
 num_set get_num_set_option(command_parser cp)
@@ -128,4 +126,6 @@ num_set get_num_set_option(command_parser cp)
 	return num_set::REVERSED;
     else if (cp.cmd_option_exists("--few-unique"))
 	return num_set::FEW_UNIQUE;
+    else
+	return num_set::SEQ_RANDOM;
 }

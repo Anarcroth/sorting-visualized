@@ -12,6 +12,8 @@ namespace sort
     void quick_sort(std::vector<SDL_Rect> &array, int low, int high);
     int partition(std::vector<SDL_Rect> &array, int low, int high);
     std::vector<SDL_Rect> binary_tree_sort(std::vector<SDL_Rect> &array);
+    void heap_sort(std::vector<SDL_Rect> &array);
+    void heapify(std::vector<SDL_Rect> &array, int n, int i);
 }
 
 #endif

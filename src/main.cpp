@@ -68,6 +68,7 @@ int main(int argc, char* args[])
 	sort::quick_sort(pillars, 0, pillars.size());
 	break;
     case algs::HEAP_SORT:
+	sort::heap_sort(pillars);
 	break;
     case algs::SHELL_SORT:
 	break;

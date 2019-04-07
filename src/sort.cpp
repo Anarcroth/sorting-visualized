@@ -159,4 +159,47 @@ namespace sort
 	bt.in_order_traversal();
 	return bt.pillars;
     }
+
+    void heap_sort(std::vector<SDL_Rect> &array)
+    {
+	for (int i = array.size() / 2 - 1; i >= 0; i--)
+	    heapify(array, array.size(), i);
+
+	for (int i = array.size() - 1; i >= 0; i--) {
+	    std::swap(array[0], array[i]);
+	    heapify(array, i, 0);
+	}
+    }
+
+    void heapify(std::vector<SDL_Rect> &array, int n, int i)
+    {
+	int largest = i;
+	int l = 2 * i + 1;
+	int r = 2 * i + 2;
+
+	screen::clear();
+	for (size_t i = 0; i < array.size(); i++) {
+	    array[i].x = i * array[i].w;
+	    SDL_SetRenderDrawColor(screen::renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	    SDL_RenderFillRect(screen::renderer, &array[i]);
+	}
+
+	if (l < n && array[l].h > array[largest].h)
+	    largest = l;
+
+	if (r < n && array[r].h > array[largest].h)
+	    largest = r;
+
+	SDL_SetRenderDrawColor(screen::renderer, 0xFF, 0x00, 0x00, 0xFF);
+	SDL_RenderFillRect(screen::renderer, &array[i]);
+
+	SDL_SetRenderDrawColor(screen::renderer, 0x00, 0xFF, 0x00, 0xFF);
+	SDL_RenderFillRect(screen::renderer, &array[largest]);
+	SDL_RenderPresent(screen::renderer);
+
+	if (largest != i) {
+	    std::swap(array[i], array[largest]);
+	    heapify(array, n, largest);
+	}
+    }
 }

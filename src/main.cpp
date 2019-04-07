@@ -71,6 +71,7 @@ int main(int argc, char* args[])
 	sort::heap_sort(pillars);
 	break;
     case algs::SHELL_SORT:
+	sort::shell_sort(pillars);
 	break;
     default:
 	break;

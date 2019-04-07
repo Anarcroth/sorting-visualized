@@ -202,4 +202,32 @@ namespace sort
 	    heapify(array, n, largest);
 	}
     }
+
+    void shell_sort(std::vector<SDL_Rect> &array)
+    {
+	for (int gap = array.size() / 2; gap > 0; gap /= 2)
+	{
+	    for (int i = gap; i < array.size(); i += 1)
+	    {
+		auto temp_pillr = array[i];
+		int j;
+		for (j = i; j >= gap && array[j - gap].h > temp_pillr.h; j -= gap)
+		    array[j] = array[j - gap];
+
+		array[j] = temp_pillr;
+
+		screen::clear();
+		for (size_t i = 0; i < array.size(); i++) {
+		    array[i].x = i * array[i].w;
+		    SDL_SetRenderDrawColor(screen::renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+		    SDL_RenderFillRect(screen::renderer, &array[i]);
+		}
+		SDL_SetRenderDrawColor(screen::renderer, 0xFF, 0x00, 0x00, 0xFF);
+		SDL_RenderFillRect(screen::renderer, &array[j]);
+		SDL_SetRenderDrawColor(screen::renderer, 0xFF, 0x00, 0x00, 0xFF);
+		SDL_RenderFillRect(screen::renderer, &array[i]);
+		SDL_RenderPresent(screen::renderer);
+	    }
+	}
+    }
 }

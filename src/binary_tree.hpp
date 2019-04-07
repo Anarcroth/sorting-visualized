@@ -2,6 +2,7 @@
 #define __BINARY_TREE_H_INCLUDED__
 
 #include <SDL2/SDL.h>
+#include <vector>
 
 struct node
 {
@@ -25,14 +26,12 @@ public:
     binary_tree() = default;
     ~binary_tree();
 
-    void find_key(SDL_Rect &key);
     void insert(SDL_Rect &key);
-    void display_tree();
     void in_order_traversal();
 
+    std::vector<SDL_Rect> pillars;
+
 private:
-    void find_key(node *&root, SDL_Rect &key);
-    void display_tree(node *&root, int indent);
     void insert(node *&root, SDL_Rect &key);
     void delete_tree(node *&root);
     void in_order_traversal(node *&root);

@@ -5,6 +5,7 @@
 
 #include "sort.hpp"
 #include "screen.hpp"
+#include "binary_tree.hpp"
 
 namespace sort
 {
@@ -36,7 +37,7 @@ namespace sort
 	    }
 
             // Render the array and the different pivots
-	    render(array, left, right, middle);
+	    render_ms(array, left, right, middle);
 	    SDL_SetRenderDrawColor(screen::renderer, 0xFF, 0x00, 0x00, 0xFF);
 	    SDL_RenderFillRect(screen::renderer, &array[k]);
 	    SDL_RenderPresent(screen::renderer);
@@ -55,7 +56,7 @@ namespace sort
 	    j++;
 	    k++;
 	}
-	render(array, left, array.size(), middle);
+	render_ms(array, left, array.size(), middle);
 	SDL_RenderPresent(screen::renderer);
     }
 
@@ -71,7 +72,7 @@ namespace sort
 	}
     }
 
-    void render(std::vector<SDL_Rect> &array, int left, int right, int middle)
+    void render_ms(std::vector<SDL_Rect> &array, int left, int right, int middle)
     {
 	screen::clear();
 	for (size_t i = 0; i < array.size(); i++) {
@@ -147,5 +148,15 @@ namespace sort
 	SDL_RenderPresent(screen::renderer);
 
 	return i + 1;
+    }
+
+    std::vector<SDL_Rect> binary_tree_sort(std::vector<SDL_Rect> &array)
+    {
+	binary_tree bt;
+	for (auto& a : array) {
+	    bt.insert(a);
+	}
+	bt.in_order_traversal();
+	return bt.pillars;
     }
 }

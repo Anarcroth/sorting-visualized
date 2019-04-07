@@ -9,7 +9,7 @@
 
 namespace number_set
 {
-    int gen();
+    std::vector<SDL_Rect> gen(int num_set);
     std::vector<SDL_Rect> random();
     std::vector<SDL_Rect> seq_random();
     //std::vector<SDL_Rect> nearly_sorted();

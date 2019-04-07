@@ -21,15 +21,25 @@ enum class algs
     SHELL_SORT
 };
 
+enum class num_set
+{
+    RANDOM,
+    SEQ_RANDOM,
+    REVERSED,
+    FEW_UNIQUE
+};
+
 void print_help();
 algs get_alg_option(command_parser cp);
+num_set get_num_set_option(command_parser cp);
 
 int main(int argc, char* args[])
 {
     command_parser cp(argc, args);
     algs a = get_alg_option(cp);
+    num_set ns = get_num_set_option(cp);
 
-    std::vector<SDL_Rect> pillars = number_set::seq_random();
+    std::vector<SDL_Rect> pillars = number_set::gen((int)ns);
 
     binary_tree bt;
     for (auto& p : pillars) {
@@ -106,4 +116,16 @@ algs get_alg_option(command_parser cp)
 	return algs::HEAP_SORT;
     else if (cp.cmd_option_exists("--shell-sort"))
 	return algs::SHELL_SORT;
+}
+
+num_set get_num_set_option(command_parser cp)
+{
+    if (cp.cmd_option_exists("--random"))
+	return num_set::RANDOM;
+    else if (cp.cmd_option_exists("--seq-random"))
+	return num_set::SEQ_RANDOM;
+    else if (cp.cmd_option_exists("--reversed"))
+	return num_set::REVERSED;
+    else if (cp.cmd_option_exists("--few-unique"))
+	return num_set::FEW_UNIQUE;
 }

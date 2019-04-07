@@ -8,9 +8,16 @@ namespace number_set
     std::mt19937 rng {std::random_device()()};
     std::uniform_int_distribution<int> even_rand(0, screen::HEIGHT);
 
-    int gen()
+    std::vector<SDL_Rect> gen(int num_set)
     {
-	return even_rand(rng);
+	switch(num_set) {
+	case 0:
+	    return random();
+	case 1:
+	    return seq_random();
+	case 2:
+	    return reversed();
+	}
     }
 
     std::vector<SDL_Rect> random()

@@ -3,6 +3,7 @@
 #include <queue>
 
 #include "binary_tree.hpp"
+#include "screen.hpp"
 
 void binary_tree::insert(SDL_Rect &key)
 {
@@ -90,9 +91,24 @@ void binary_tree::in_order_traversal(node *&root)
 {
     if (root != nullptr) {
         in_order_traversal(root->left);
-        std::cout << root->key.h << " ";
+
+	root->key.x = i * root->key.w;
+
+	SDL_RenderFillRect(screen::renderer, &root->key);
+
+	i += 1;
+	std::cout << root->key.x << " ";
+	std::cout << root->key.h << " ";
+
         in_order_traversal(root->right);
+
+	// root->key.x = i * root->key.w;
+	// SDL_SetRenderDrawColor(screen::renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	// SDL_RenderFillRect(screen::renderer, &root->key);
+	// SDL_RenderPresent(screen::renderer);
+	// i += 1;
     }
+    SDL_RenderPresent(screen::renderer);
 }
 
 void binary_tree::right_rotation(node *&root)
@@ -135,9 +151,6 @@ void binary_tree::delete_tree(node *&root)
         delete_tree(root->left);
         delete_tree(root->right);
     }
-
-    root->left = nullptr;
-    root->right = nullptr;
     delete root;
 }
 

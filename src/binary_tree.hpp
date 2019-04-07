@@ -42,6 +42,8 @@ private:
     void double_left_rotation(node *&root);
     int inline height(node *&root);
     node *root{};
+
+    int i = 0;
 };
 
 #endif

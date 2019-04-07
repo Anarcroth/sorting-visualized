@@ -12,8 +12,8 @@ CPPFLAGS = -g -std=c++17 -Wall -lSDL2
 default: srtv
 
 # To create the executable file:
-srtv: main.o sort.o screen.o number_set.o
-	$(CC) $(CPPFLAGS) -o srtv.app main.o sort.o screen.o number_set.o
+srtv: main.o sort.o screen.o number_set.o binary_tree.o command_parser.o
+	$(CC) $(CPPFLAGS) -o srtv.app main.o sort.o screen.o number_set.o binary_tree.o command_parser.o
 
 # Provide source files:
 main.o: main.cpp
@@ -27,6 +27,12 @@ screen.o: screen.cpp
 
 number_set.o: number_set.cpp
 	$(CC) -c number_set.cpp
+
+binary_tree.o: binary_tree.cpp
+	$(CC) -c binary_tree.cpp
+
+command_parser.o: command_parser.cpp
+	$(CC) -c command_parser.cpp
 
 # Remove executable files, as well as old .o object
 # files and *~ backup files:

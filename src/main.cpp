@@ -2,6 +2,7 @@
 #include <ctime>
 #include <vector>
 #include <string>
+#include <fstream>
 
 #include "sort.hpp"
 #include "screen.hpp"
@@ -37,24 +38,31 @@ void print_help();
 algs get_alg_option(command_parser cp);
 num_set get_num_set_option(command_parser cp);
 int get_custom_num_set(command_parser cp);
+std::string get_num_set_file(command_parser cp);
 uint64 get_time();
+std::vector<int> parse_file(std::string f);
 
 int main(int argc, char* args[])
 {
     command_parser cp(argc, args);
     algs a = get_alg_option(cp);
     num_set ns = get_num_set_option(cp);
+    std::string file = get_num_set_file(cp);
     int set_size = get_custom_num_set(cp);
 
     std::vector<SDL_Rect> pillars = number_set::gen((int)ns, set_size);
     std::vector<int> nums;
 
-    if (set_size > screen::WIDTH)
+    // init vectors
+    if (!file.empty()) {
+	nums = parse_file(file);
+    } else if (set_size > screen::WIDTH) {
 	for (auto& p : pillars)
 	    nums.push_back(p.h);
+    }
 
     uint64 start_time = get_time();
-    if (set_size > screen::WIDTH)
+    if (set_size > screen::WIDTH || !file.empty())
 	sort_no_visuals(nums, a);
     else
 	sort_visuals(pillars, a);
@@ -72,7 +80,7 @@ void sort_no_visuals(std::vector<int> &nums, algs a)
     // Print before start.
     for (int n : nums)
 	printf("%d ", n);
-    printf("\n%s%d", "Unsorted array size: ", nums.size());
+    printf("\n%s%zu", "Unsorted array size: ", nums.size());
 
     switch(a) {
     case algs::MERGE_SORT:
@@ -98,7 +106,7 @@ void sort_no_visuals(std::vector<int> &nums, algs a)
     printf("\n===========\n");
     for (int n : nums)
 	printf("%d ", n);
-    printf("\n%s%d\n\n", "Sorted array size: ", nums.size());
+    printf("\n%s%zu\n\n", "Sorted array size: ", nums.size());
 }
 
 void sort_visuals(std::vector<SDL_Rect> &pillars, algs a)
@@ -202,6 +210,13 @@ int get_custom_num_set(command_parser cp)
     return 0;
 }
 
+std::string get_num_set_file(command_parser cp)
+{
+    if (cp.cmd_option_exists("--file"))
+	return cp.get_cmd_option("--file");
+    return "";
+}
+
 uint64 get_time()
 {
  struct timeval tv;
@@ -212,4 +227,16 @@ uint64 get_time()
  ret += (tv.tv_sec * 1000);
 
  return ret;
+}
+
+std::vector<int> parse_file(std::string f)
+{
+    std::ifstream infile(f);
+    std::string line;
+    std::vector<int> nums;
+
+    while (std::getline(infile, line))
+	nums.push_back(std::stoi(line.c_str()));
+
+    return nums;
 }

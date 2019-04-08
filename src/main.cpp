@@ -49,12 +49,12 @@ int main(int argc, char* args[])
     std::vector<SDL_Rect> pillars = number_set::gen((int)ns, set_size);
     std::vector<int> nums;
 
-    if (set_size > screen::HEIGHT)
+    if (set_size > screen::WIDTH)
 	for (auto& p : pillars)
 	    nums.push_back(p.h);
 
     uint64 start_time = get_time();
-    if (set_size > screen::HEIGHT)
+    if (set_size > screen::WIDTH)
 	sort_no_visuals(nums, a);
     else
 	sort_visuals(pillars, a);

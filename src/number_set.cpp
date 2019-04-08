@@ -9,19 +9,22 @@ namespace number_set
     std::mt19937 rng {std::random_device()()};
     std::uniform_int_distribution<int> even_rand(0, screen::HEIGHT);
     int pillar_width = 1;
-    int num_pillars = 1280; // yeah this is a magic number, it's 4 am
+    int num_pillars = screen::WIDTH;
+    int upper_bound = screen::HEIGHT;
 
     std::vector<SDL_Rect> gen(int num_set, int set_size)
     {
-	// If the number set size is below 1,
-	// then take the screen height by default
-	// and keep the default pillar width.
-	if (set_size > 0) {
-	    even_rand.param(
-		std::uniform_int_distribution<int>::param_type(0, set_size));
-	    pillar_width = set_size;
+	// If needed, change default values.
+	if (set_size > 1) {
+	    num_pillars = set_size;
+	    if (set_size <= screen::WIDTH) {
+		pillar_width = screen::WIDTH / set_size;
+	    } else {
+		// if the set size is too big, extend the range of random numbers
+		even_rand.param(std::uniform_int_distribution<int>::param_type(0, set_size));
+		upper_bound = set_size;
+	    }
 	}
-	num_pillars = get_num_pillars();
 
 	switch(num_set) {
 	case 0:
@@ -51,7 +54,7 @@ namespace number_set
     {
 	std::vector<int> pillar_vals;
 	for (int i = 0; i < num_pillars; i++) {
-	    double frac = (double)screen::HEIGHT / screen::WIDTH;
+	    double frac = (double)upper_bound / num_pillars;
 	    int pillar_val = std::floor(frac * i);
 	    pillar_vals.push_back(pillar_val);
 	}
@@ -71,7 +74,7 @@ namespace number_set
     {
 	std::vector<SDL_Rect> pillars;
 	for (int i = 0; i < num_pillars; i++) {
-	    double frac = (double)screen::HEIGHT / screen::WIDTH;
+	    double frac = (double)upper_bound / num_pillars;
 	    int pillar_val = std::floor(frac * (num_pillars - i));
 	    int rect_y = screen::HEIGHT - pillar_val;
 
@@ -80,13 +83,5 @@ namespace number_set
 	    pillars.push_back(rect);
 	}
 	return pillars;
-    }
-
-    int get_num_pillars()
-    {
-	if (screen::WIDTH < pillar_width)
-	    return pillar_width;
-	else
-	    return screen::WIDTH / pillar_width;
     }
 }

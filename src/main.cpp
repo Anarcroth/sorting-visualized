@@ -1,6 +1,6 @@
-#include <random>
+#include <sys/time.h>
+#include <ctime>
 #include <vector>
-#include <iostream>
 
 #include "sort.hpp"
 #include "screen.hpp"
@@ -11,6 +11,8 @@
 // TODO
 // Add timer
 // Add statistics output
+
+typedef unsigned long long uint64;
 
 enum class algs
 {
@@ -32,6 +34,7 @@ enum class num_set
 void print_help();
 algs get_alg_option(command_parser cp);
 num_set get_num_set_option(command_parser cp);
+uint64 get_time();
 
 int main(int argc, char* args[])
 {
@@ -49,6 +52,7 @@ int main(int argc, char* args[])
     screen::clear();
     screen::show_array(pillars);
 
+    uint64 start_time = get_time();
     switch(a) {
     case algs::MERGE_SORT:
 	sort::merge_sort(pillars, 0, pillars.size());
@@ -76,9 +80,14 @@ int main(int argc, char* args[])
     default:
 	break;
     }
+    uint64 stop_time = get_time();
 
     screen::finish(pillars);
     screen::close();
+
+    printf("%s%llu%s\n", "Algorithm took ",
+	   (stop_time - start_time),
+	   " milliseconds to finish.");
 
     return 0;
 }
@@ -90,6 +99,9 @@ void print_help()
     printf("Sorting Algorithm Visualization\n");
     printf("\tShow how the different sorting algorithms look like in action.\n\n");
     printf("Options:\n");
+    printf("\t--random\tuse random number set\n");
+    printf("\t--seq-random\tuse randomized sequential numbers\n");
+    printf("\t--reversed\tuse reversed sequential numbers\n\n");
     printf("\t--merge-sort\n");
     printf("\t--binary-tree-sort\n");
     printf("\t--quick-sort\n");
@@ -130,4 +142,16 @@ num_set get_num_set_option(command_parser cp)
 	return num_set::FEW_UNIQUE;
     else
 	return num_set::SEQ_RANDOM;
+}
+
+uint64 get_time()
+{
+ struct timeval tv;
+ gettimeofday(&tv, NULL);
+
+ uint64 ret = tv.tv_usec;
+ ret /= 1000;
+ ret += (tv.tv_sec * 1000);
+
+ return ret;
 }

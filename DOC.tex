@@ -1,0 +1,103 @@
+\documentclass{article}
+
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage{fullpage}
+\usepackage{pgfgantt}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{relsize}
+\usepackage{epigraph}
+\usepackage{parskip}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{pgfplots}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\definecolor{pr0}{RGB}{61, 255, 12}
+\definecolor{pr1}{RGB}{208, 231, 11}
+\definecolor{pr2}{RGB}{255, 190, 0}
+\definecolor{pr3}{RGB}{231, 149, 11}
+\definecolor{pr4}{RGB}{255, 95, 6}
+\definecolor{pr5}{RGB}{231, 20, 3}
+\definecolor{pr6}{RGB}{255, 12, 190}
+
+\definecolor{codeblue}{HTML}{528bff}
+\definecolor{codegreen}{HTML}{98C379}
+\definecolor{codepurple}{HTML}{C678DD}
+\definecolor{codebg}{gray}{0.92}
+
+\newtcbox{\codeinline}{nobeforeafter,colframe=codebg,colback=codebg,arc=1pt,boxrule=0.5pt, left=0.5pt,right=0.5pt,top=0.5pt,bottom=0.5pt,tcbox raise base}
+
+\newcommand{\code}[1]{\codeinline{\texttt{#1}}}
+
+\lstdefinestyle{cpp}{
+  language=C++,
+  basicstyle=\ttfamily,
+  backgroundcolor=\color{codebg},
+  numberstyle=\color{black},
+  keywordstyle=\color{codeblue},
+  commentstyle=\color{codegreen},
+  stringstyle=\color{codepurple},
+  breakatwhitespace=false,
+  breaklines=true,
+  columns=flexible,
+  keepspaces=true,
+  firstnumber=1,
+  numbers=left,
+  numbersep=3pt,
+  tabsize=4,
+  title=\lstname
+}
+
+\lstset{escapechar=@,style=cpp}
+
+\title{Optimal Sorting Algorithms\\Visualization and Comparison}
+\date{\today}
+\author{Martin Nestorov}
+\linespread{1}
+
+\begin{document}
+
+\maketitle
+\pagenumbering{arabic}
+
+\newpage
+
+\section{\underline{Introduction}}
+
+There are several sorting algorithms that are quite popular and have a wide range of uses in real world applications. In general, they employ a different approach to solving the problem of sorting a set of numbers. The chosen algorithms for this topic are as follows:
+
+\begin{itemize}
+\item \textbf{Merge Sort}
+\item \textbf{Quick Sort}
+\item \textbf{Binary Tree Sort}
+\item \textbf{Heap Sort}
+\item \textbf{Shell Sort}
+\end{itemize}
+
+Each of these algorithms will be explained how it works and how it was implemented.
+
+\subsection{\underline{Merge Sort}}
+
+\subsection{\underline{Quick Sort}}
+
+\subsection{\underline{Binary Tree Sort}}
+
+\subsection{\underline{Heap Sort}}
+
+\subsection{\underline{Shell Sort}}
+
+\section{\underline{Random Number Generation}}
+
+\section{\underline{Visualization}}
+
+\section{\underline{Timing}}
+
+\end{document}

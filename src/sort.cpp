@@ -230,4 +230,142 @@ namespace sort
 	    }
 	}
     }
+
+    void merge(std::vector<int> &array, int left, int middle, int right)
+    {
+	int i, j, k;
+	int n1 = middle - left + 1;
+	int n2 = right - middle;
+
+	std::vector<int> L(n1), R(n2);
+
+	for (i = 0; i < n1; i++)
+	    L[i] = array[left + i];
+
+	for (j = 0; j < n2; j++)
+	    R[j] = array[middle + 1 + j];
+
+	i = 0;
+	j = 0;
+	k = left;
+
+	while (i < n1 && j < n2) {
+	    if (L[i] <= R[j]) {
+		array[k] = L[i];
+		i++;
+	    } else {
+		array[k] = R[j];
+		j++;
+	    }
+	    k++;
+	}
+
+	while (i < n1) {
+	    array[k] = L[i];
+	    i++;
+	    k++;
+	}
+
+	while (j < n2) {
+	    array[k] = R[j];
+	    j++;
+	    k++;
+	}
+    }
+
+    void merge_sort(std::vector<int> &array, int left, int right)
+    {
+	if (left < right) {
+	    int middle = left + (right - left) / 2;
+
+	    merge_sort(array, left, middle);
+	    merge_sort(array, middle + 1, right);
+
+	    merge(array, left, middle, right);
+	}
+    }
+
+    void quick_sort(std::vector<int> &array, int low, int high)
+    {
+	if (high > low)
+	{
+	    int pivot = partition(array, low, high);
+	    quick_sort(array, low, pivot - 1);
+	    quick_sort(array, pivot + 1, high);
+	}
+    }
+
+    int partition(std::vector<int> &array, int low, int high)
+    {
+	screen::clear();
+
+	int pivot = array[high];
+	int i = low - 1;
+
+	for (int j = low; j <= high - 1; j++) {
+	    if (array[j] <= pivot) {
+		i++;
+		std::swap(array[i], array[j]);
+	    }
+	}
+
+	std::swap(array[i + 1], array[high]);
+
+	return i + 1;
+    }
+
+    // std::vector<int> binary_tree_sort(std::vector<int> &array)
+    // {
+    // 	binary_tree bt;
+    // 	for (auto& a : array) {
+    // 	    bt.insert(a);
+    // 	}
+    // 	bt.in_order_traversal();
+    // 	return bt.pillars;
+    // }
+
+    void heap_sort(std::vector<int> &array)
+    {
+	for (int i = array.size() / 2 - 1; i >= 0; i--)
+	    heapify(array, array.size(), i);
+
+	for (int i = array.size() - 1; i >= 0; i--) {
+	    std::swap(array[0], array[i]);
+	    heapify(array, i, 0);
+	}
+    }
+
+    void heapify(std::vector<int> &array, int n, int i)
+    {
+	int largest = i;
+	int l = 2 * i + 1;
+	int r = 2 * i + 2;
+
+	if (l < n && array[l] > array[largest])
+	    largest = l;
+
+	if (r < n && array[r] > array[largest])
+	    largest = r;
+
+	if (largest != i) {
+	    std::swap(array[i], array[largest]);
+	    heapify(array, n, largest);
+	}
+    }
+
+    void shell_sort(std::vector<int> &array)
+    {
+	for (int gap = array.size() / 2; gap > 0; gap /= 2)
+	{
+	    for (int i = gap; i < array.size(); i += 1)
+	    {
+		int temp = array[i];
+		int j;
+		for (j = i; j >= gap && array[j - gap] > temp; j -= gap)
+		    array[j] = array[j - gap];
+
+		array[j] = temp;
+	    }
+	}
+    }
 }

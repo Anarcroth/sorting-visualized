@@ -24,6 +24,27 @@ namespace sort
 
     // shell sort
     void shell_sort(std::vector<SDL_Rect> &array);
+
+    //////////////////////////////////////////
+    // Same algorithms, but using only ints // (don't question this horrific code, iz perfect)
+    //////////////////////////////////////////
+    // merge sort
+    void merge(std::vector<int> &array, int left, int middle, int right);
+    void merge_sort(std::vector<int> &array, int left, int right);
+
+    // quick sort
+    void quick_sort(std::vector<int> &array, int low, int high);
+    int partition(std::vector<int> &array, int low, int high);
+
+    // binary tree sort
+    // std::vector<int> binary_tree_sort(std::vector<int> &array);
+
+    // heap sort
+    void heap_sort(std::vector<int> &array);
+    void heapify(std::vector<int> &array, int n, int i);
+
+    // shell sort
+    void shell_sort(std::vector<int> &array);
 }
 
 #endif

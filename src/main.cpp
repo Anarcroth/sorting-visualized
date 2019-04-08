@@ -1,6 +1,7 @@
 #include <sys/time.h>
 #include <ctime>
 #include <vector>
+#include <string>
 
 #include "sort.hpp"
 #include "screen.hpp"
@@ -9,7 +10,6 @@
 #include "binary_tree.hpp"
 
 // TODO
-// Add timer
 // Add statistics output
 
 typedef unsigned long long uint64;
@@ -31,9 +31,12 @@ enum class num_set
     FEW_UNIQUE
 };
 
+void sort_no_visuals(std::vector<int> &nums, algs a);
+void sort_visuals(std::vector<SDL_Rect> &pillars, algs a);
 void print_help();
 algs get_alg_option(command_parser cp);
 num_set get_num_set_option(command_parser cp);
+int get_custom_num_set(command_parser cp);
 uint64 get_time();
 
 int main(int argc, char* args[])
@@ -41,18 +44,73 @@ int main(int argc, char* args[])
     command_parser cp(argc, args);
     algs a = get_alg_option(cp);
     num_set ns = get_num_set_option(cp);
+    int set_size = get_custom_num_set(cp);
 
-    std::vector<SDL_Rect> pillars = number_set::gen((int)ns);
+    std::vector<SDL_Rect> pillars = number_set::gen((int)ns, set_size);
+    std::vector<int> nums;
 
+    if (set_size > screen::HEIGHT)
+	for (auto& p : pillars)
+	    nums.push_back(p.h);
+
+    uint64 start_time = get_time();
+    if (set_size > screen::HEIGHT)
+	sort_no_visuals(nums, a);
+    else
+	sort_visuals(pillars, a);
+    uint64 stop_time = get_time();
+
+    printf("%s%llu%s\n", "Algorithm took ",
+	   (stop_time - start_time),
+	   " milliseconds to finish.");
+
+    return 0;
+}
+
+void sort_no_visuals(std::vector<int> &nums, algs a)
+{
+    // Print before start.
+    for (int n : nums)
+	printf("%d ", n);
+    printf("\n%s%d", "Unsorted array size: ", nums.size());
+
+    switch(a) {
+    case algs::MERGE_SORT:
+	sort::merge_sort(nums, 0, nums.size());
+	break;
+    case algs::BINARY_TREE_SORT:
+	//nums = sort::binary_tree_sort(nums);
+	break;
+    case algs::QUICK_SORT:
+	sort::quick_sort(nums, 0, nums.size());
+	break;
+    case algs::HEAP_SORT:
+	sort::heap_sort(nums);
+	break;
+    case algs::SHELL_SORT:
+	sort::shell_sort(nums);
+	break;
+    default:
+	break;
+    }
+
+    // Print after sorting.
+    printf("\n===========\n");
+    for (int n : nums)
+	printf("%d ", n);
+    printf("\n%s%d\n\n", "Sorted array size: ", nums.size());
+}
+
+void sort_visuals(std::vector<SDL_Rect> &pillars, algs a)
+{
     if (!screen::init()) {
 	printf("Failed to initialize!\n");
-	return(0);
+	exit(0);
     }
 
     screen::clear();
     screen::show_array(pillars);
 
-    uint64 start_time = get_time();
     switch(a) {
     case algs::MERGE_SORT:
 	sort::merge_sort(pillars, 0, pillars.size());
@@ -80,16 +138,9 @@ int main(int argc, char* args[])
     default:
 	break;
     }
-    uint64 stop_time = get_time();
 
     screen::finish(pillars);
     screen::close();
-
-    printf("%s%llu%s\n", "Algorithm took ",
-	   (stop_time - start_time),
-	   " milliseconds to finish.");
-
-    return 0;
 }
 
 void print_help()
@@ -142,6 +193,13 @@ num_set get_num_set_option(command_parser cp)
 	return num_set::FEW_UNIQUE;
     else
 	return num_set::SEQ_RANDOM;
+}
+
+int get_custom_num_set(command_parser cp)
+{
+    if (cp.cmd_option_exists("--set-size"))
+	return std::stoi(cp.get_cmd_option("--set-size").c_str());
+    return 0;
 }
 
 uint64 get_time()

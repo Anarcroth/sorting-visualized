@@ -489,6 +489,12 @@ The testing is done on 3 different types of number sets. One is the random set, 
 
 By having these 3 types of sets, we can see how the algorithms are handling repeating values, and how the perform on completely reversed sets.
 
+In addition to this number generator, there are 3 text files, containing 10000, 500000, and 1000000 numbers that can be given to the program and will be sorted by it. More test cases can be put into files and passed to the program like so:
+
+\code{./srtv.app --merge-sort --file testcase1.txt}
+
+for any sorting algorithm and any test case file.
+
 \subsection{\underline{Random Number Generation}}
 
 The generator is implemented using the standard \code{C++} library, using the \code{<random>} header file.

@@ -59,6 +59,11 @@ int main(int argc, char* args[])
     } else if (set_size > screen::WIDTH) {
 	for (auto& p : pillars)
 	    nums.push_back(p.h);
+
+	// Print nums to see them that they will sort.
+	for (int n : nums)
+		printf("%d ", n);
+	printf("\n%s%zu", "Unsorted array size: ", nums.size());
     }
 
     uint64 start_time = get_time();
@@ -67,6 +72,14 @@ int main(int argc, char* args[])
     else
 	sort_visuals(pillars, a);
     uint64 stop_time = get_time();
+
+    // Print sorted array after time is stopped.
+    if (set_size > screen::WIDTH || !file.empty()) {
+	printf("\n===========\n");
+	for (int n : nums)
+	    printf("%d ", n);
+	printf("\n%s%zu\n\n", "Sorted array size: ", nums.size());
+    }
 
     printf("%s%llu%s\n", "Algorithm took ",
 	   (stop_time - start_time),
@@ -77,11 +90,6 @@ int main(int argc, char* args[])
 
 void sort_no_visuals(std::vector<int> &nums, algs a)
 {
-    // Print before start.
-    for (int n : nums)
-	printf("%d ", n);
-    printf("\n%s%zu", "Unsorted array size: ", nums.size());
-
     switch(a) {
     case algs::MERGE_SORT:
 	sort::merge_sort(nums, 0, nums.size());
@@ -101,12 +109,6 @@ void sort_no_visuals(std::vector<int> &nums, algs a)
     default:
 	break;
     }
-
-    // Print after sorting.
-    printf("\n===========\n");
-    for (int n : nums)
-	printf("%d ", n);
-    printf("\n%s%zu\n\n", "Sorted array size: ", nums.size());
 }
 
 void sort_visuals(std::vector<SDL_Rect> &pillars, algs a)

@@ -297,8 +297,6 @@ namespace sort
 
     int partition(std::vector<int> &array, int low, int high)
     {
-	screen::clear();
-
 	int pivot = array[high];
 	int i = low - 1;
 

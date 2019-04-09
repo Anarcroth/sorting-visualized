@@ -515,6 +515,36 @@ This would take the set and randomize it without any bias in it. Visually, this 
 
 Visualization of this project is done through the \code{SDL2} graphics library, where each number is represented by a rectangle, and the height is the number we are sorting.
 
+Here are a few screenshots that show how the visualization is working.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth,scale=0.4]{./screenshot1.png}
+  \caption{Merge Sort}
+  \label{fig:Merge Sort}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth,scale=0.4]{./screenshot2.png}
+  \caption{Heap Sort}
+  \label{fig:Heap Sort}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth,scale=0.4]{./screenshot3.png}
+  \caption{Quick Sort}
+  \label{fig:Quick Sort}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth,scale=0.4]{./screenshot4.png}
+  \caption{Shell Sort}
+  \label{fig:Shell Sort}
+\end{figure}
+
 \begin{lstlisting}
 SDL_Rect rect = {x, y, width, height (value_to_sort)};
 \end{lstlisting}
@@ -529,7 +559,7 @@ Here is a summary of the different times for the different algorithms with all o
 
 \begin{table}[H]
   \begin{center}
-    \label{tab:FCFS times}
+    \label{tab:Average running times}
     \begin{tabular}{c|c|c|c|c}
       \toprule
       \textbf{Number Set} & \textbf{Merge Sort} & \textbf{Quick Sort} & \textbf{Heap Sort} & \textbf{Shell Sort} \\
